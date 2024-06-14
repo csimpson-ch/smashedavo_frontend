@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { redirect } from "react-router-dom";
+import React, { useState } from 'react';
+import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
 
 
@@ -11,9 +11,6 @@ function Login () {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // alert('Form submitted with username: ' + username + ' and password: ' + password);
-        // setUsername(username);
-        // setPassword(password);
 
         // make a post request with username and password to backend
         const res = await fetch(login_url, {
@@ -41,37 +38,39 @@ function Login () {
     };
 
     return (
-
         <div>
-            <h1>Login</h1>
-            <form class="form-signin" onSubmit={handleSubmit} method="POST">
+            <Navbar />
+            <div>
+                <h1>Login</h1>
+                <form class="form-signin" onSubmit={handleSubmit} method="POST">
 
-                <label for="username" class="sr-only">Username</label>
-                <input
-                    class="form-control"
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    autofocus
-                />
+                    <label for="username" class="sr-only">Username</label>
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        autofocus
+                    />
 
-                <label for="password" class="sr-only">Password</label>
-                <input 
-                    class="form-control"
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                    <label for="password" class="sr-only">Password</label>
+                    <input 
+                        class="form-control"
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
 
-                <br />
-                <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block" />
-            </form>
+                    <br />
+                    <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block" />
+                </form>
+            </div>
         </div>
     )
 

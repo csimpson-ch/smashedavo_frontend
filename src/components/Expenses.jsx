@@ -1,17 +1,108 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
 
 
-function TableRow({ id, description, amount, category, loan, regularpayment, date, approved }) {
-    let rowClassName = approved ? 'table-success' : 'table-warning';
+function SearchableExpensesTable({ expenses }) {
+
+    const [searchText, setSearchText] = useState('');
+    const [approvedOnlyFilter, setApprovedOnlyFilter] = useState(false);
+
     return (
-        <tr key={id} className={rowClassName}>
-            <td>{description}</td>
-            <td>{amount}</td>
-            <td>{category}</td>
-            <td>{loan}</td>
-            <td>{regularpayment}</td>
-            <td>{date}</td>
+        <div className='container-fluid'>
+            <SearchBar
+                searchText={searchText}
+                onSearchTextChange={setSearchText}
+                approvedOnlyFilter={approvedOnlyFilter}
+                onApprovedOnlyFilterChange={setApprovedOnlyFilter}
+            />
+            <ExpensesTable
+                expenses={expenses}
+                searchText={searchText}
+                approvedOnlyFilter={approvedOnlyFilter}
+            />
+            <p>{approvedOnlyFilter}</p>
+            <p>{searchText}</p>
+        </div>
+    )
+
+}
+
+
+function SearchBar ({searchText, onSearchTextChange, approvedOnlyFilter, onApprovedOnlyFilterChange}) {
+    return (
+        <form class="d-flex">
+            <input
+                className="form-control mb-2"
+                type="search"
+                value={searchText}
+                placeholder="Search in Description"
+                onChange={(event) => onSearchTextChange(event.target.value)}
+            />
+            <label className="form-check-label">
+                <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={approvedOnlyFilter}
+                    onChange={(event) => onApprovedOnlyFilterChange(event.target.checked)}
+                />
+                Approved Only
+            </label>
+        </form>
+    )
+}
+
+
+function ExpensesTable({ expenses, searchText, approvedOnlyFilter }) {
+    
+    let rows = [];
+
+    expenses.forEach((expense) => {
+        
+        // if (expense.fields.description.toLowerCase().includes(searchText.toLowerCase()) || searchText === '') {
+        //     rows.push(<ExpenseRow expense={expense} />)
+        // }
+        if (expense.fields.description.toLowerCase().includes(searchText.toLowerCase()) || searchText === '') {
+            if (approvedOnlyFilter && !expense.fields.approved) {
+                return;
+            }
+            rows.push(<ExpenseRow expense={expense} />)
+        }
+    })
+    
+    return (
+        <table className="table table-striped">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Loan</th>
+                    <th>Regular Payment</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </table>
+    )
+}
+
+
+function ExpenseRow({ expense }) {
+    return (
+        <tr
+            key={expense.pk}
+            className={expense.fields.approved ? 'table-success' : 'table-warning'}
+        >
+            <td>{expense.fields.description}</td>
+            <td>{expense.fields.amount}</td>
+            <td>{expense.fields.category}</td>
+            <td>{expense.fields.loan}</td>
+            <td>{expense.fields.regularpayment}</td>
+            <td>{expense.fields.date}</td>
             <td></td>
         </tr>
     )
@@ -38,42 +129,18 @@ const Expenses = () => {
             setExpenses(data)
         })
         .catch(error => console.error(error));
-    }, []);
+    }, [url]);
     
     // Render the fetched blog posts
     return (
         <div>
-            <h1 key='heading'>Expenses for {sessionStorage.getItem('username')}</h1>
-            <p>{Object.keys(expenses).length}</p>
-
-            <table className="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">Description</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Loan</th>
-                    <th scope="col">Regular Payment</th>
-                    <th scope="col">Date</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                    {expenses.map((expense) => (
-                        <TableRow
-                            id = {expense.pk}
-                            description = {expense.fields.description}
-                            amount = {expense.fields.amount}
-                            category = {expense.fields.category}
-                            loan = {expense.fields.loan}
-                            regularpayment = {expense.fields.regularpayment}
-                            date = {expense.fields.date}
-                            approved = {expense.fields.approved}
-                        />
-                    ))}
-                </tbody>
-            </table>
+            <Navbar />
+            <div className="container-fluid">
+                <h1 key='heading'>Expenses for {sessionStorage.getItem('username')}</h1>
+                <SearchableExpensesTable expenses={expenses} />
+            </div>
         </div>
+        
     )
 }
 

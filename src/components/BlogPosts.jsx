@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
 
 
@@ -23,7 +24,7 @@ function Heading(blogposts) {
 const BlogPosts = () => {
     // State to hold the fetched blog posts
     const [blogposts, setBlogposts] = useState([]);
-    let url = 'http://127.0.0.1:8000/backend/blogposts';
+    let url = 'http://127.0.0.1:8000/backend/blogposts/';
 
     useEffect(() => {
         fetch(url, {
@@ -41,26 +42,28 @@ const BlogPosts = () => {
             setBlogposts(data)
         })
         .catch(error => console.error(error));
-    }, []);
+    }, [url]);
     
     // Render the fetched blog posts
     return (
 
         <div>
-            <Heading
-                blogposts={blogposts}
-            />
+            <Navbar />
+            <div>
+                <Heading
+                    blogposts={blogposts}
+                />
 
-            <ul class="list-group">
-                {blogposts.map((blogposts) => (
-                    <li class="list-group-item">
-                        <h2>{blogposts.fields.title}</h2>
-                        <p>{blogposts.fields.text}</p>
-                        <p>Posted by {blogposts.fields.user} on {blogposts.fields.pub_date}</p>
-                    </li>
-                ))}
-            </ul>
-
+                <ul class="list-group">
+                    {blogposts.map((blogposts) => (
+                        <li class="list-group-item">
+                            <h2>{blogposts.fields.title}</h2>
+                            <p>{blogposts.fields.text}</p>
+                            <p>Posted by {blogposts.fields.user} on {blogposts.fields.pub_date}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

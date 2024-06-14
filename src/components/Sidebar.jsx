@@ -1,9 +1,8 @@
 import React from 'react';
-import { redirect } from "react-router-dom";
 import '../static/bootstrap.min.css';
 
 
-const Sidebar = () => {
+export default function Sidebar () {
   return (
     <div class="col-2 bd-sidebar">
         <ul class="nav flex-column">
@@ -17,5 +16,3 @@ const Sidebar = () => {
     </div>
   );
 }
-
-export default Sidebar;
