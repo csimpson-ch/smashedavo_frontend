@@ -7,8 +7,8 @@ export default function Navbar () {
   function ItemLogin ({ username }) {
     if (username == null) {
       return (
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+        <li className="nav-item">
+          <a className="nav-link" href="/login">Login</a>
         </li>
       )
     }
@@ -20,8 +20,8 @@ export default function Navbar () {
       return null
     }
     return (
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
+      <li className="nav-item">
+        <a className="nav-link" href="/logout">Logout</a>
       </li>
     )
   }
@@ -29,12 +29,23 @@ export default function Navbar () {
   function ItemSignup ( {username} ) {
     if (username == null) {
       return (
-        <li class="nav-item">
-          <a class="nav-link" href="/signup">Signup</a>
+        <li className="nav-item">
+          <a className="nav-link" href="/signup">Signup</a>
         </li>
       )
     }
     return null
+  }
+
+  function ItemCreate ({username}) {
+    if (username == null) {
+      return null
+    }
+    return (
+      <li className="nav-item">
+        <a className="nav-link" href="/create">Create</a>
+      </li>
+    )
   }
 
   function ItemExpenses({username}) {
@@ -42,8 +53,8 @@ export default function Navbar () {
       return null
     }
     return (
-      <li class="nav-item">
-        <a class="nav-link" href="/expenses">Expenses</a>
+      <li className="nav-item">
+        <a className="nav-link" href="/expenses">Expenses</a>
       </li>
     )
   }
@@ -53,28 +64,29 @@ export default function Navbar () {
       return null
     }
     return (
-      <li class="nav-item">
-        <a class="nav-link" href="/regularpayments">Regular Payments</a>
+      <li className="nav-item">
+        <a className="nav-link" href="/regularpayments">Regular Payments</a>
       </li>
     )
   }
 
   return (
       <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="/">Smashed Avacado</a>
-              <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="/">Smashed Avacado</a>
+              <button className="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
               </button>
                     
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 
-                <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <a class="nav-link" href="/blog">Blog</a>
+                <ul className="nav nav-tabs">
+                  <li className="nav-item">
+                    <a className="nav-link" href="/blog">Blog</a>
                   </li>
                   <ItemLogin username={sessionStorage.getItem('username')}/>
+                  <ItemCreate username={sessionStorage.getItem('username')}/>
                   <ItemExpenses username={sessionStorage.getItem('username')}/>
                   <ItemRegularPayments username={sessionStorage.getItem('username')}/>
                   <ItemSignup username={sessionStorage.getItem('username')}/>

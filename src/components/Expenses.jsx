@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
+import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 
-
-function SearchableExpensesTable({ expenses }) {
-
+function SearchableExpensesTable({expenses, urlQuery, setUrlQuery}) {
     const [searchText, setSearchText] = useState('');
     const [approvedOnlyFilter, setApprovedOnlyFilter] = useState(false);
 
@@ -20,6 +19,8 @@ function SearchableExpensesTable({ expenses }) {
                 expenses={expenses}
                 searchText={searchText}
                 approvedOnlyFilter={approvedOnlyFilter}
+                urlQuery={urlQuery}
+                setUrlQuery={setUrlQuery}
             />
             <p>{approvedOnlyFilter}</p>
             <p>{searchText}</p>
@@ -53,15 +54,17 @@ function SearchBar ({searchText, onSearchTextChange, approvedOnlyFilter, onAppro
 }
 
 
-function ExpensesTable({ expenses, searchText, approvedOnlyFilter }) {
-    
-    let rows = [];
+function ExpensesTable({expenses, searchText, approvedOnlyFilter, urlQuery, setUrlQuery}) {
 
+    // create values to track clicks of table buttons
+    const [clickDescription, setClickDescription] = useState(0);
+    const [clickAmount, setClickAmount] = useState(0);
+    const [clickCategory, setClickCategory] = useState(0);
+    const [clickDate, setClickDate] = useState(0);
+
+    // create array of rows to display, filtered based on search parameters
+    let rows = [];
     expenses.forEach((expense) => {
-        
-        // if (expense.fields.description.toLowerCase().includes(searchText.toLowerCase()) || searchText === '') {
-        //     rows.push(<ExpenseRow expense={expense} />)
-        // }
         if (expense.fields.description.toLowerCase().includes(searchText.toLowerCase()) || searchText === '') {
             if (approvedOnlyFilter && !expense.fields.approved) {
                 return;
@@ -69,17 +72,73 @@ function ExpensesTable({ expenses, searchText, approvedOnlyFilter }) {
             rows.push(<ExpenseRow expense={expense} />)
         }
     })
+
+    function handleClickDescription() {
+        setClickDescription(clickDescription + 1)
+        if (clickDescription % 2 === 0) {
+            setUrlQuery('?orderby=description&ordering=asc')
+        } else {
+            setUrlQuery('?orderby=description&ordering=desc')
+        }
+    }
+
+    function handleClickAmount() {
+        setClickAmount(clickAmount + 1)
+        if (clickAmount % 2 === 0) {
+            setUrlQuery('?orderby=amount&ordering=asc')
+        } else {
+            setUrlQuery('?orderby=amount&ordering=desc')
+        }
+    }
+
+    function handleClickCategory() {
+        setClickCategory(clickCategory + 1)
+        if (clickCategory % 2 === 0) {
+            setUrlQuery('?orderby=category&ordering=asc')
+        } else {
+            setUrlQuery('?orderby=category&ordering=desc')
+        }
+    }
     
+    function handleClickDate() {
+        setClickDate(clickDate + 1)
+        if (clickDate % 2 === 0) {
+            setUrlQuery('?orderby=date&ordering=asc')
+        } else {
+            setUrlQuery('?orderby=date&ordering=desc')
+        }
+    }
+
     return (
         <table className="table table-striped">
             <thead>
                 <tr>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Category</th>
+                    <th>Description
+                        <button type="button" className="btn btn-default btn-sm" onClick={handleClickDescription}>
+                            <ChevronDownIcon size="small" />
+                            <ChevronUpIcon size="small" />
+                        </button>
+                    </th>
+                    <th>Amount
+                        <button type="button" className="btn btn-default btn-sm" onClick={handleClickAmount}>
+                            <ChevronDownIcon size="small" />
+                            <ChevronUpIcon size="small" />
+                        </button>          
+                    </th>
+                    <th>Category
+                        <button type="button" className="btn btn-default btn-sm" onClick={handleClickCategory}>
+                            <ChevronDownIcon size="small" />
+                            <ChevronUpIcon size="small" />
+                        </button>
+                    </th>
                     <th>Loan</th>
                     <th>Regular Payment</th>
-                    <th>Date</th>
+                    <th>Date
+                        <button type="button" className="btn btn-default btn-sm" onClick={handleClickDate}>
+                            <ChevronDownIcon size="small" />
+                            <ChevronUpIcon size="small" />
+                        </button>
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -91,6 +150,13 @@ function ExpensesTable({ expenses, searchText, approvedOnlyFilter }) {
 }
 
 
+/**
+ * Renders a row in the expenses table with the information of a given expense.
+ *
+ * @param {Object} props - An object containing the expense to be rendered.
+ * @param {Object} props.expense - An object representing an expense.
+ * @return {JSX.Element} A table row with the information of the expense.
+ */
 function ExpenseRow({ expense }) {
     return (
         <tr
@@ -109,13 +175,14 @@ function ExpenseRow({ expense }) {
 };
 
 
-const Expenses = () => {
+export default function Expenses ({urlAPI}) {
     // State to hold the fetched blog posts
     const [expenses, setExpenses] = useState([]);
-    let url = 'http://127.0.0.1:8000/backend/expenses/';
+    const [urlQuery, setUrlQuery] = useState('');
 
+    // get expenses data from the backend
     useEffect(() => {
-        fetch(url, {
+        fetch(urlAPI+urlQuery, {
                 method: 'GET',
                 modes: 'cors',
                 credentials: "same-origin",
@@ -129,19 +196,20 @@ const Expenses = () => {
             setExpenses(data)
         })
         .catch(error => console.error(error));
-    }, [url]);
+    }, [urlAPI, urlQuery]);
     
     // Render the fetched blog posts
     return (
         <div>
             <Navbar />
             <div className="container-fluid">
-                <h1 key='heading'>Expenses for {sessionStorage.getItem('username')}</h1>
-                <SearchableExpensesTable expenses={expenses} />
+                <h1 key='heading'>Expenses</h1>
+                <SearchableExpensesTable
+                    expenses={expenses}
+                    urlQuery={urlQuery}
+                    setUrlQuery={setUrlQuery}
+                />
             </div>
         </div>
-        
     )
 }
-
-export default Expenses

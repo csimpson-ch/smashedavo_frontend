@@ -68,7 +68,6 @@ function RegularPaymentsTable({ regularpayments, searchText, filterDate }) {
         }
     })
 
-
     return (
         <table className="table table-hover">
             <thead>
@@ -106,12 +105,12 @@ function RegularPaymentRow ({ regularpayment }) {
     )
 }
 
-export default function RegularPayments() {
+export default function RegularPayments( {urlAPI}) {
     const [regularPayments, setRegularPayments] = useState([]);
-    let url = 'http://127.0.0.1:8000/backend/regularpayments/';
+    // let url = 'http://127.0.0.1:8000/backend/regularpayments/';
 
     useEffect(() => {
-        fetch(url, {
+        fetch(urlAPI, {
                 method: 'GET',
                 modes: 'cors',
                 credentials: "same-origin",
@@ -125,12 +124,15 @@ export default function RegularPayments() {
             setRegularPayments(data)
         })
         .catch(error => console.error(error));
-    }, [url]);
+    }, [urlAPI]);
     
     return (
         <div>
             <Navbar />
-            <SearchableRegularPaymentsTable regularpayments={regularPayments} />
+            <div className="container-fluid">
+                <h1 key='heading'>Regular Payments</h1>
+                <SearchableRegularPaymentsTable regularpayments={regularPayments} />
+            </div>
         </div>
     )
 }
