@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import '../static/bootstrap.min.css';
 
+// TODO - check https://reactrouter.com/en/main/start/overview#active-links for better routing
 
 export default function Navbar () {
 
@@ -83,7 +85,7 @@ export default function Navbar () {
                 
                 <ul className="nav nav-tabs">
                   <li className="nav-item">
-                    <a className="nav-link" href="/blog">Blog</a>
+                    <Link className="nav-link" to="/blog">Blog</Link>
                   </li>
                   <ItemLogin username={sessionStorage.getItem('username')}/>
                   <ItemCreate username={sessionStorage.getItem('username')}/>
@@ -96,6 +98,7 @@ export default function Navbar () {
               </div>
           </div>
         </nav>
+        <Outlet />
       </div>
   );
 }

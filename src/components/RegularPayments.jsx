@@ -127,12 +127,9 @@ export default function RegularPayments( {urlAPI}) {
     }, [urlAPI]);
     
     return (
-        <div>
-            <Navbar />
-            <div className="container-fluid">
-                <h1 key='heading'>Regular Payments</h1>
-                <SearchableRegularPaymentsTable regularpayments={regularPayments} />
-            </div>
+        <div className="container-fluid">
+            <h1 key='heading'>Regular Payments</h1>
+            <SearchableRegularPaymentsTable regularpayments={regularPayments} />
         </div>
     )
 }

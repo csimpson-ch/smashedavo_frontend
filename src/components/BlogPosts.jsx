@@ -46,24 +46,17 @@ const BlogPosts = () => {
     
     // Render the fetched blog posts
     return (
-
         <div>
-            <Navbar />
-            <div>
-                <Heading
-                    blogposts={blogposts}
-                />
-
-                <ul class="list-group">
-                    {blogposts.map((blogposts) => (
-                        <li class="list-group-item">
-                            <h2>{blogposts.fields.title}</h2>
-                            <p>{blogposts.fields.text}</p>
-                            <p>Posted by {blogposts.fields.user} on {blogposts.fields.pub_date}</p>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <Heading blogposts={blogposts}/>
+            <ul class="list-group">
+                {blogposts.map((blogposts) => (
+                    <li class="list-group-item">
+                        <h2>{blogposts.fields.title}</h2>
+                        <p>{blogposts.fields.text}</p>
+                        <p>Posted by {blogposts.fields.user} on {blogposts.fields.pub_date}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

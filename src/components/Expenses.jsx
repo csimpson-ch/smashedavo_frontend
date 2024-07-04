@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
@@ -22,13 +23,9 @@ function SearchableExpensesTable({expenses, urlQuery, setUrlQuery}) {
                 urlQuery={urlQuery}
                 setUrlQuery={setUrlQuery}
             />
-            <p>{approvedOnlyFilter}</p>
-            <p>{searchText}</p>
         </div>
     )
-
 }
-
 
 function SearchBar ({searchText, onSearchTextChange, approvedOnlyFilter, onApprovedOnlyFilterChange}) {
     return (
@@ -149,15 +146,10 @@ function ExpensesTable({expenses, searchText, approvedOnlyFilter, urlQuery, setU
     )
 }
 
-
-/**
- * Renders a row in the expenses table with the information of a given expense.
- *
- * @param {Object} props - An object containing the expense to be rendered.
- * @param {Object} props.expense - An object representing an expense.
- * @return {JSX.Element} A table row with the information of the expense.
- */
 function ExpenseRow({ expense }) {
+
+    let edit_href = '/expenses/${expense.pk}/edit'
+
     return (
         <tr
             key={expense.pk}
@@ -169,7 +161,12 @@ function ExpenseRow({ expense }) {
             <td>{expense.fields.loan}</td>
             <td>{expense.fields.regularpayment}</td>
             <td>{expense.fields.date}</td>
-            <td></td>
+            <td>
+                <Link to={`/expenses/${expense.pk}/edit`}>
+                    <button className="btn btn-outline-primary">Edit</button>
+                </Link>
+                
+            </td>
         </tr>
     )
 };
@@ -200,16 +197,17 @@ export default function Expenses ({urlAPI}) {
     
     // Render the fetched blog posts
     return (
-        <div>
-            <Navbar />
+        <div className="container-fluid">
+            <h1 key='heading'>Expenses</h1>
             <div className="container-fluid">
-                <h1 key='heading'>Expenses</h1>
-                <SearchableExpensesTable
-                    expenses={expenses}
-                    urlQuery={urlQuery}
-                    setUrlQuery={setUrlQuery}
-                />
+                <button type="button" class="btn btn-primary" onClick={() => window.location.href = '/expenses/create'}>Create</button>
             </div>
+            <br />
+            <SearchableExpensesTable
+                expenses={expenses}
+                urlQuery={urlQuery}
+                setUrlQuery={setUrlQuery}
+            />
         </div>
     )
 }

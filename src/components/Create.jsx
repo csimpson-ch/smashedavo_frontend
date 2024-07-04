@@ -4,8 +4,6 @@ import '../static/bootstrap.min.css';
 
 export default function Create() {
     return (
-        <div>
-            <Navbar />
             <div className="container-fluid">
                 <div className='row'>
                     <div className='col-sm-6'>
@@ -39,7 +37,6 @@ export default function Create() {
 
                 </div>
             </div>
-        </div>
     )
 }
 
