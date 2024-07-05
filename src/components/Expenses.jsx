@@ -1,8 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
+import { Link, Navigate } from 'react-router-dom';
 import '../static/bootstrap.min.css';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+
+
+export default function Expenses ({urlAPI}) {
+    const [expenses, setExpenses] = useState([]);
+    const [urlQuery, setUrlQuery] = useState('');
+    const [toExpenseCreate, setToExpenseCreate] = useState(false);
+
+    useEffect(() => {
+        fetch(urlAPI+urlQuery, {
+                method: 'GET',
+                modes: 'cors',
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
+        .then(response => response.json())
+        .then(data => {
+            setExpenses(data)
+        })
+        .catch(error => console.error(error));
+    }, [urlAPI, urlQuery]);
+
+    const handleClick = () => {
+        setToExpenseCreate(true);
+    }
+
+    if (toExpenseCreate) {
+        return <Navigate to="/expenses/create" replace={true}/>;
+    }
+
+    return (
+        <div className="container-fluid">
+            <h1 key='heading'>Expenses</h1>
+            <div className="container-fluid">
+                <button type="button" class="btn btn-primary" onClick={handleClick}>
+                    Create New
+                </button>
+            </div>
+            <br />
+            <SearchableExpensesTable
+                expenses={expenses}
+                urlQuery={urlQuery}
+                setUrlQuery={setUrlQuery}
+            />
+        </div>
+    )
+}
+
 
 function SearchableExpensesTable({expenses, urlQuery, setUrlQuery}) {
     const [searchText, setSearchText] = useState('');
@@ -147,9 +196,6 @@ function ExpensesTable({expenses, searchText, approvedOnlyFilter, urlQuery, setU
 }
 
 function ExpenseRow({ expense }) {
-
-    let edit_href = '/expenses/${expense.pk}/edit'
-
     return (
         <tr
             key={expense.pk}
@@ -171,43 +217,3 @@ function ExpenseRow({ expense }) {
     )
 };
 
-
-export default function Expenses ({urlAPI}) {
-    // State to hold the fetched blog posts
-    const [expenses, setExpenses] = useState([]);
-    const [urlQuery, setUrlQuery] = useState('');
-
-    // get expenses data from the backend
-    useEffect(() => {
-        fetch(urlAPI+urlQuery, {
-                method: 'GET',
-                modes: 'cors',
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        )
-        .then(response => response.json())
-        .then(data => {
-            setExpenses(data)
-        })
-        .catch(error => console.error(error));
-    }, [urlAPI, urlQuery]);
-    
-    // Render the fetched blog posts
-    return (
-        <div className="container-fluid">
-            <h1 key='heading'>Expenses</h1>
-            <div className="container-fluid">
-                <button type="button" class="btn btn-primary" onClick={() => window.location.href = '/expenses/create'}>Create</button>
-            </div>
-            <br />
-            <SearchableExpensesTable
-                expenses={expenses}
-                urlQuery={urlQuery}
-                setUrlQuery={setUrlQuery}
-            />
-        </div>
-    )
-}

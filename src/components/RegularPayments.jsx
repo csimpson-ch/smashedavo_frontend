@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
 
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
 
 
@@ -39,8 +38,6 @@ function Logout () {
     };
 
     return (
-        <div>
-            <Navbar />
             <div>
                 <h1>Logout</h1>
                 <p>Are you sure you want to logout user {username}?</p>
@@ -48,7 +45,6 @@ function Logout () {
                     <button type="submit" class="btn btn-primary my-1">Logout</button>
                 </form>
             </div>
-        </div>
     )
 
 }

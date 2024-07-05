@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Navbar from './Navbar';
 import '../static/bootstrap.min.css';
 
 
@@ -38,8 +37,6 @@ function Login () {
     };
 
     return (
-        <div>
-            <Navbar />
             <div>
                 <h1>Login</h1>
                 <form class="form-signin" onSubmit={handleSubmit} method="POST">
@@ -71,7 +68,6 @@ function Login () {
                     <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block" />
                 </form>
             </div>
-        </div>
     )
 
 }
