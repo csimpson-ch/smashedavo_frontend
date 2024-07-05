@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import '../static/bootstrap.min.css';
 
 
@@ -7,6 +8,7 @@ function Login () {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const login_url = 'http://127.0.0.1:8000/backend/login/';
+    const [toUserWelcome, setToUserWelcome] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -30,11 +32,16 @@ function Login () {
         if (json.status === "Authenticated") {
             sessionStorage.setItem('username', json.username);
             alert('User ' + json.username + ' has been authenticated.');
+            setToUserWelcome(true);
         }
         else {
             alert("The user could not be authenticated.");
         }
     };
+
+    if (toUserWelcome) {
+        return <Navigate to="/" replace={true}/>;
+    }
 
     return (
             <div>
