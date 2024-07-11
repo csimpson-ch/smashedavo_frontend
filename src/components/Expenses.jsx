@@ -1,30 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLoaderData } from 'react-router-dom';
 import '../static/bootstrap.min.css';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 
 
 export default function Expenses ({urlAPI}) {
+    const data = useLoaderData();
     const [expenses, setExpenses] = useState([]);
     const [urlQuery, setUrlQuery] = useState('');
     const [toExpenseCreate, setToExpenseCreate] = useState(false);
 
     useEffect(() => {
-        fetch(urlAPI+urlQuery, {
-                method: 'GET',
-                modes: 'cors',
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        )
-        .then(response => response.json())
-        .then(data => {
-            setExpenses(data)
-        })
-        .catch(error => console.error(error));
-    }, [urlAPI, urlQuery]);
+        setExpenses(data);
+    }, [data])
 
     const handleClick = () => {
         setToExpenseCreate(true);

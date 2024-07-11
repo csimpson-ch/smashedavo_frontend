@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useLoaderData } from 'react-router-dom';
 import moment from 'moment';
 import '../static/bootstrap.min.css';
 
+export default function RegularPayments() {
+    const data = useLoaderData();
+    const [regularPayments, setRegularPayments] = useState([]);
 
+    useEffect(() => {
+        setRegularPayments(data);
+    }, [data]);
+    
+    return (
+        <div className="container-fluid">
+            <h1 key='heading'>Regular Payments</h1>
+            <SearchableRegularPaymentsTable regularpayments={regularPayments} />
+        </div>
+    )
+}
 
 function SearchableRegularPaymentsTable({ regularpayments })  {
 
@@ -101,34 +116,5 @@ function RegularPaymentRow ({ regularpayment }) {
             <td>{regularpayment.fields.loan}</td>
             <td></td>
         </tr>
-    )
-}
-
-export default function RegularPayments( {urlAPI}) {
-    const [regularPayments, setRegularPayments] = useState([]);
-    // let url = 'http://127.0.0.1:8000/backend/regularpayments/';
-
-    useEffect(() => {
-        fetch(urlAPI, {
-                method: 'GET',
-                modes: 'cors',
-                credentials: "same-origin",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        )
-        .then(response => response.json())
-        .then(data => {
-            setRegularPayments(data)
-        })
-        .catch(error => console.error(error));
-    }, [urlAPI]);
-    
-    return (
-        <div className="container-fluid">
-            <h1 key='heading'>Regular Payments</h1>
-            <SearchableRegularPaymentsTable regularpayments={regularPayments} />
-        </div>
     )
 }
