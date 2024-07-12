@@ -1,36 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Link, Navigate, useLoaderData } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Form, useLoaderData } from 'react-router-dom';
 import '../static/bootstrap.min.css';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 
+// TODO - fix buttons for asc/desc, which currently depend on backend rather than frontend.
 
-export default function Expenses ({urlAPI}) {
-    const data = useLoaderData();
-    const [expenses, setExpenses] = useState([]);
+export async function loader() {
+    const res = await fetch('http://127.0.0.1:8000/backend/expenses/', {
+        method: 'GET',
+        modes: 'cors',
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (res.status !== 200) {
+        throw new Response("Error in fetching expenses:", { status: res.status });
+    }
+    const data = await res.json();
+    return data;
+}
+
+export default function Expenses () {
+    const expenses = useLoaderData();
     const [urlQuery, setUrlQuery] = useState('');
-    const [toExpenseCreate, setToExpenseCreate] = useState(false);
-
-    useEffect(() => {
-        setExpenses(data);
-    }, [data])
-
-    const handleClick = () => {
-        setToExpenseCreate(true);
-    }
-
-    if (toExpenseCreate) {
-        return <Navigate to="/expenses/create" replace={true}/>;
-    }
 
     return (
         <div className="container-fluid">
             <h1 key='heading'>Expenses</h1>
-            <div className="container-fluid">
-                <button type="button" class="btn btn-primary" onClick={handleClick}>
-                    Create New
-                </button>
-            </div>
-            <br />
             <SearchableExpensesTable
                 expenses={expenses}
                 urlQuery={urlQuery}
@@ -39,7 +36,6 @@ export default function Expenses ({urlAPI}) {
         </div>
     )
 }
-
 
 function SearchableExpensesTable({expenses, urlQuery, setUrlQuery}) {
     const [searchText, setSearchText] = useState('');
@@ -86,7 +82,6 @@ function SearchBar ({searchText, onSearchTextChange, approvedOnlyFilter, onAppro
         </form>
     )
 }
-
 
 function ExpensesTable({expenses, searchText, approvedOnlyFilter, urlQuery, setUrlQuery}) {
 
@@ -196,10 +191,9 @@ function ExpenseRow({ expense }) {
             <td>{expense.fields.regularpayment}</td>
             <td>{expense.fields.date}</td>
             <td>
-                <Link to={`/expenses/${expense.pk}/edit`}>
-                    <button className="btn btn-outline-primary">Edit</button>
+                <Link to={`/expenses/${expense.pk}`}>
+                    <button className="btn btn-outline-primary">Select</button>
                 </Link>
-                
             </td>
         </tr>
     )

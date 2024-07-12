@@ -4,7 +4,7 @@ import '../static/bootstrap.min.css';
 
 // TODO - check https://reactrouter.com/en/main/start/overview#active-links for better routing
 
-export default function Navbar () {
+export default function Root () {
 
   function ItemLogin ({ username }) {
     if (username == null) {
@@ -40,7 +40,7 @@ export default function Navbar () {
   }
 
 
-  function Topbar({username}) {
+  function Topbar() {
       return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
@@ -72,7 +72,7 @@ export default function Navbar () {
       return null;
     } else {
       return (
-        <div className="col-md-auto">
+        
           <nav className='navbar navbar-dark bg-light'>
             <ul className="nav flex-sm-column">
               <li className="nav-item">
@@ -92,19 +92,20 @@ export default function Navbar () {
               </li>
             </ul>
           </nav>
-        </div>
       )
     }
   }
 
   return (
       <div>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <Topbar username={sessionStorage.getItem('username')}/>
           </div>
           <div className="row">
-            <Sidebar username={sessionStorage.getItem('username')}/>
+            <div className="col-2">
+              <Sidebar username={sessionStorage.getItem('username')}/>
+            </div>
             <div className="col">
               <Outlet />
             </div>

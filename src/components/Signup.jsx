@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
 import '../static/bootstrap.min.css';
 
 export default function Signup() {
@@ -59,8 +58,7 @@ export default function Signup() {
     }
 
     return (
-        <div>
-            <Navbar />
+        <>
             <h1>Signup</h1>
             <form onSubmit={handleSubmit}>
 
@@ -118,6 +116,6 @@ export default function Signup() {
                 <br />
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-        </div>
+        </>
     );
 }

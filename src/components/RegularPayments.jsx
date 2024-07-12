@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, Link } from 'react-router-dom';
 import moment from 'moment';
 import '../static/bootstrap.min.css';
+
+export async function loader() {
+    const res = await fetch('http://127.0.0.1:8000/backend/regularpayments/', {
+        method: 'GET',
+        modes: 'cors',
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (res.status !== 200) {
+        throw new Response("Error in fetching regular payments:", { status: res.status });
+    }
+    const data = await res.json();
+    return data;
+}
 
 export default function RegularPayments() {
     const data = useLoaderData();
@@ -109,12 +125,16 @@ function RegularPaymentRow ({ regularpayment }) {
         <tr key={regularpayment.pk}>
             <td>{regularpayment.fields.description}</td>
             <td>{regularpayment.fields.amount}</td>
-            <td>{regularpayment.fields.category}</td>
             <td>{regularpayment.fields.interval}</td>
             <td>{regularpayment.fields.next_payment_date}</td>
             <td>{regularpayment.fields.last_payment_date}</td>
+            <td>{regularpayment.fields.category}</td>
             <td>{regularpayment.fields.loan}</td>
-            <td></td>
+            <td>
+                <Link to={`/regularpayments/${regularpayment.pk}/edit`}>
+                    <button className="btn btn-outline-primary">Edit</button>
+                </Link>
+            </td>
         </tr>
     )
 }

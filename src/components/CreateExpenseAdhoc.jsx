@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
 import { FormExpenseDescription } from "./FormElements"
 import { FormExpenseAmount } from "./FormElements"
 import { FormExpenseCategory } from "./FormElements"
