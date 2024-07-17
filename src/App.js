@@ -6,19 +6,10 @@ import BlogPosts from "./components/BlogPosts";
 import Create from "./components/Create";
 import CreateExpenseAdhoc from "./components/CreateExpenseAdhoc";
 import Expenses, { loader as loaderExpenses } from "./components/Expenses";
-import ExpensesSelect, {
-  loader as loaderExpensesSelect
-} from "./components/ExpensesSelect";
-import ExpensesCreate, {
-  loader as loaderExpensesCreate,
-  action as actionExpensesCreate
-} from "./components/ExpensesCreate";
+import ExpensesCreate, { loader as loaderExpensesCreate, action as actionExpensesCreate } from "./components/ExpensesCreate";
 import ExpensesCreateSuccess from "./components/ExpensesCreateSuccess";
-import ExpensesEdit, { 
-  loader as loaderExpensesEdit,
-  action as actionExpensesEdit
-} from "./components/ExpensesEdit";
-import ExpensesEditSuccess from "./components/ExpensesEditSuccess";
+import ExpensesSelect, { loader as loaderExpensesSelect } from "./components/ExpensesSelect";
+import ExpensesEdit, { action as actionExpensesEdit } from "./components/ExpensesEdit";
 import ExpensesDelete, { action as actionExpensesDelete } from "./components/ExpensesDelete";
 import ExpensesDeleteSuccess from "./components/ExpensesDeleteSuccess";
 import RegularPayments, { loader as loaderRegularPayments } from "./components/RegularPayments";
@@ -60,12 +51,6 @@ function App() {
           loader: loaderExpenses,
         },
         {
-          path: 'expenses/:expenseId',
-          element: <ExpensesSelect />,
-          loader: loaderExpensesSelect,
-          errorElement: <ErrorPage />,
-        },
-        {
           path:'expenses/create',
           element: <ExpensesCreate />,
           loader: loaderExpensesCreate,
@@ -76,26 +61,23 @@ function App() {
           element: <ExpensesCreateSuccess />,
         },
         {
-          path: 'expenses/:expenseId/edit',
-          element: <ExpensesEdit />,
-          loader: loaderExpensesEdit,
-          action: actionExpensesEdit,
+          path: 'expenses/:expenseId',
+          element: <ExpensesSelect />,
+          loader: loaderExpensesSelect,
           errorElement: <ErrorPage />,
         },
         {
-          path: 'expenses/edit/success',
-          element: <ExpensesEditSuccess />,
+          path: 'expenses/:expenseId/edit',
+          element: <ExpensesEdit />,
+          loader: loaderExpensesSelect,
+          action: actionExpensesEdit,
           errorElement: <ErrorPage />,
         },
         {
           path: 'expenses/:expenseId/delete',
           element: <ExpensesDelete />,
+          loader: loaderExpensesSelect,
           action: actionExpensesDelete,
-          errorElement: <ErrorPage />,
-        },
-        {
-          path: 'expenses/delete/success',
-          element: <ExpensesDeleteSuccess />,
           errorElement: <ErrorPage />,
         },
         {

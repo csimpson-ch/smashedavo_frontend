@@ -83,9 +83,8 @@ function SearchBar ({searchText, onSearchTextChange, filterDate, onFilterDateCha
 
 function RegularPaymentsTable({ regularpayments, searchText, filterDate }) {
 
-    // initialise empty array of rows to display
-    const rows = [];
-    
+    // create rows to display based on filter criteria
+    const rows = [];    
     regularpayments.forEach((regularpayment) => {
         if (regularpayment.fields.description.toLowerCase().includes(searchText.toLowerCase()) || searchText === '') {
             if (!filterDate) {

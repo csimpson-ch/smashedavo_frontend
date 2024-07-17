@@ -139,7 +139,7 @@ function ExpensesTable({expenses, searchText, approvedOnlyFilter, urlQuery, setU
     }
 
     return (
-        <table className="table table-striped">
+        <table className="table">
             <thead>
                 <tr>
                     <th>Description
@@ -182,7 +182,7 @@ function ExpenseRow({ expense }) {
     return (
         <tr
             key={expense.pk}
-            className={expense.fields.approved ? 'table-success' : 'table-warning'}
+            className={expense.fields.approved ? 'table-light' : 'table-warning'}
         >
             <td>{expense.fields.description}</td>
             <td>{expense.fields.amount}</td>
