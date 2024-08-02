@@ -124,14 +124,14 @@ function RegularPaymentRow ({ regularpayment }) {
         <tr key={regularpayment.pk}>
             <td>{regularpayment.fields.description}</td>
             <td>{regularpayment.fields.amount}</td>
+            <td>{regularpayment.fields.category}</td>
             <td>{regularpayment.fields.interval}</td>
             <td>{regularpayment.fields.next_payment_date}</td>
             <td>{regularpayment.fields.last_payment_date}</td>
-            <td>{regularpayment.fields.category}</td>
             <td>{regularpayment.fields.loan}</td>
             <td>
-                <Link to={`/regularpayments/${regularpayment.pk}/edit`}>
-                    <button className="btn btn-outline-primary">Edit</button>
+                <Link to={`/regularpayments/${regularpayment.pk}`}>
+                    <button className="btn btn-outline-primary">Select</button>
                 </Link>
             </td>
         </tr>

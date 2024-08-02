@@ -4,17 +4,18 @@ import Logout from "./components/Logout";
 import Signup from "./components/Signup";
 import BlogPosts from "./components/BlogPosts";
 import Create from "./components/Create";
-import CreateExpenseAdhoc from "./components/CreateExpenseAdhoc";
 import Expenses, { loader as loaderExpenses } from "./components/Expenses";
 import ExpensesCreate, { loader as loaderExpensesCreate, action as actionExpensesCreate } from "./components/ExpensesCreate";
 import ExpensesCreateSuccess from "./components/ExpensesCreateSuccess";
 import ExpensesSelect, { loader as loaderExpensesSelect } from "./components/ExpensesSelect";
 import ExpensesEdit, { action as actionExpensesEdit } from "./components/ExpensesEdit";
 import ExpensesDelete, { action as actionExpensesDelete } from "./components/ExpensesDelete";
-import ExpensesDeleteSuccess from "./components/ExpensesDeleteSuccess";
-import RegularPayments, { loader as loaderRegularPayments } from "./components/RegularPayments";
+// import RegularPayments, { loader as loaderRegularPayments } from "./components/RegularPayments";
+// import RegularPaymentsCreate, { loader as loaderRegularPaymentsCreate, action as actionRegularPaymentsCreate } from "./components/RegularPaymentsCreate";
+// import RegularPaymentsSelect, { loader as loaderRegularPaymentsSelect } from "./components/RegularPaymentsSelect";
+// import RegularPaymentsEdit, { action as actionRegularPaymentsEdit } from "./components/RegularPaymentsEdit";
 import ErrorPage from "./components/ErrorPage";
-import { Route, useRouteError, createBrowserRouter, createRoutesFromElements, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 
 function App() {
@@ -80,13 +81,31 @@ function App() {
           action: actionExpensesDelete,
           errorElement: <ErrorPage />,
         },
-        {
-          path:'regularpayments',
-          element: <RegularPayments />,
-          loader: loaderRegularPayments,
-          errorElement: <ErrorPage />,
-        }
-
+        // {
+        //   path:'regularpayments',
+        //   element: <RegularPayments />,
+        //   loader: loaderRegularPayments,
+        //   errorElement: <ErrorPage />,
+        // },
+        // {
+        //   path:'regularpayments/create',
+        //   element: <RegularPaymentsCreate />,
+        //   loader: loaderRegularPaymentsCreate,
+        //   action: actionRegularPaymentsCreate,
+        // },
+        // {
+        //   path: 'regularpayments/:regularpaymentId',
+        //   element: <RegularPaymentsSelect />,
+        //   loader: loaderRegularPaymentsSelect,
+        //   errorElement: <ErrorPage />,
+        // },
+        // {
+        //   path: 'regularpayments/:regularpaymentId/edit',
+        //   element: <RegularPaymentsEdit />,
+        //   loader: loaderRegularPaymentsSelect,
+        //   action: actionRegularPaymentsEdit,
+        //   errorElement: <ErrorPage />,
+        // },
       ]
     },
   ])

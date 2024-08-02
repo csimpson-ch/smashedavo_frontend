@@ -1,6 +1,9 @@
 import React from "react";
 import { useLoaderData, Link, Form, redirect } from "react-router-dom";
+import { ExpenseForm } from "./ExpenseForm";
 import '../static/bootstrap.min.css';
+
+// note - reuses loader from ExpensesSelect
 
 export async function action({ request, params }) {
     const urlAPI = `http://127.0.0.1:8000/backend/expenses/${params.expenseId}/edit/`;
@@ -29,92 +32,20 @@ export async function action({ request, params }) {
 }
 
 export default function ExpensesEdit () {
-
     const loaderData = useLoaderData();
-
     return (
         <div className="container">
             <div className="row">
                 <h1>Expense Edit</h1>
             </div>
-            <Form className="form" method="post">
-                <div className="row">
-                    <div className="form-group">
-                        <label className="form-label">
-                            <span>Description</span>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="description"
-                                defaultValue={loaderData.fields.description}
-                                required
-                            />
-                            </label>
-                    </div>
-                    <div className="form-group">
-                            <label className="form-label">
-                                <span>Amount</span>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    name="amount"
-                                    defaultValue={loaderData.fields.amount}
-                                    required
-                                />
-                            </label>
-                    </div>
-                    <div className="form-group">
-                            <label className="form-label">
-                                <span>Category</span>
-                                <select
-                                    id="categorySelect"
-                                    className="form-control"
-                                    name="category"
-                                    defaultValue={loaderData.fields.category}
-                                    required
-                                >
-                                    {Object.entries(loaderData.category_choices).map(([key, value]) => (
-                                        <option key={key}>{value.toString()}</option>
-                                    ))}
-                                </select>
-                            </label>
-                    </div>
-                    <div className="form-group">
-                            <label className="form-label">
-                                <span>Date</span>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    name="date"
-                                    defaultValue={loaderData.fields.date}
-                                    required
-                                />
-                            </label>
-                    </div>
-                    <div className="form-group">
-                            <label className="form-label">
-                                <span>Approved </span>
-                                <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    name="approved"
-                                    defaultChecked={loaderData.fields.approved}
-                                />
-                            </label>
-                    </div>
-                </div>
-                <br />
-                <div className="row">
-                    <div className="col-auto">
-                        <button type="submit" className="btn btn-outline-primary">Update</button>
-                    </div>
-                    <div className="col-auto">
-                        <Link to={`/expenses/${loaderData.pk}`}>
-                            <button type="button" className="btn btn-secondary">Cancel</button>
-                        </Link>
-                    </div>
-                </div>
-            </Form>
+            <div className="row">
+                <ExpenseForm
+                    pk={loaderData.pk}
+                    fields={loaderData.fields}
+                    categoryChoices={loaderData.category_choices}
+                    type="edit"
+                />
+            </div>
         </div>
     )
 }

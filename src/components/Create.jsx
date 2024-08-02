@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../static/bootstrap.min.css';
 
 // TODO - replace the window.location.href with a proper react router redirect to the new page
@@ -12,7 +13,9 @@ export default function Create() {
                             <div className="card-body">
                                 <h4 className='card-title'>Expense</h4>
                                 <p className='card-text'>Create a new adhoc expense, such as a grocery or other payment.</p>
-                                <button type="button" class="btn btn-primary" onClick={() => window.location.href = '/expenses/create'}>Create</button>
+                                <Link to="/expenses/create">
+                                    <button type="button" className="btn btn-outline-primary">Create</button>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -21,6 +24,9 @@ export default function Create() {
                             <div className="card-body">
                                 <h4 className='card-title'>Regular Payment</h4>
                                 <p className='card-text'>Create a new regular payment.</p>
+                                <Link to="/regularpayments/create">
+                                    <button type="button" className="btn btn-outline-primary">Create</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

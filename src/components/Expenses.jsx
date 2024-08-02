@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Form, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import '../static/bootstrap.min.css';
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
 
@@ -62,7 +62,7 @@ function SearchableExpensesTable({expenses, urlQuery, setUrlQuery}) {
 
 function SearchBar ({searchText, onSearchTextChange, approvedOnlyFilter, onApprovedOnlyFilterChange}) {
     return (
-        <form class="d-flex">
+        <form className="d-flex">
             <input
                 className="form-control mb-2"
                 type="search"
